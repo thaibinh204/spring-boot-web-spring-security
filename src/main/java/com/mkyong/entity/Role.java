@@ -12,16 +12,19 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "role")
 public class Role {
+
 	
 	
 	private Long id;
 
     private String name;
     
-    @ManyToMany(mappedBy = "roles")
+    
     private Set<User> users;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+
 	public Long getId() {
 		return id;
 	}
@@ -38,6 +41,7 @@ public class Role {
 		this.name = name;
 	}
 
+	@ManyToMany
 	public Set<User> getUsers() {
 		return users;
 	}
@@ -45,6 +49,5 @@ public class Role {
 	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
-    
-    
+
 }
