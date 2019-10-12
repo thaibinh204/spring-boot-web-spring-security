@@ -1,6 +1,6 @@
 package com.mkyong.entity;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,15 +12,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user")
 public class User {
-	
+
 	private Long id;
 	private String userName;
 	private String password;
-	
-	private Set<Role> roles;
+
+	private List<Role> roles;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}
@@ -44,15 +44,14 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	@ManyToMany
-	public Set<Role> getRoles() {
+	public List<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
-
-	
 
 }
