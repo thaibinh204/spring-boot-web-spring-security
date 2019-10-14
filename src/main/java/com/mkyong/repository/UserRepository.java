@@ -1,9 +1,10 @@
 package com.mkyong.repository;
 
-import org.apache.catalina.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.mkyong.entity.User;
+
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByUsername(String username);
+    User findByUserName(String userName);
 
 }
