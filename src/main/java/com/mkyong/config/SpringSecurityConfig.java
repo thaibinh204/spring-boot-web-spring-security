@@ -1,11 +1,15 @@
 package com.mkyong.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
+
+import com.mkyong.service.UserDetailsService;
 
 @Configuration
 // http://docs.spring.io/spring-boot/docs/current/reference/html/howto-security.html
@@ -15,6 +19,15 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+
 
     // roles admin allow to access /admin/**
     // roles user allow to access /user/**
@@ -45,14 +58,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
-        auth.inMemoryAuthentication()
-                .withUser("dat").password("{noop}dat1234").roles("USER","ADMIN")
-                .and()
-                .withUser("khoi").password("{noop}khoi1234").roles("USER")
-                .and()
-                .withUser("admin").password("{noop}password").roles("ADMIN");
+//        auth.inMemoryAuthentication()
+//                .withUser("dat").password("{noop}dat1234").roles("USER","ADMIN")
+//                .and()
+//                .withUser("khoi").password("{noop}khoi1234").roles("USER")
+//                .and()
+//                .withUser("admin").password("{noop}password").roles("ADMIN");
         
+    	 auth.userDetailsService(userDetailsService);    
     }
 
     /*
