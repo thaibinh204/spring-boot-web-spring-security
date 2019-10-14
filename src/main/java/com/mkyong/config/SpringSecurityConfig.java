@@ -24,7 +24,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/", "/home", "/about").permitAll()
+                .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/resources/**").permitAll()
+                .antMatchers("/favicon.ico").permitAll()
+                .antMatchers("/", "/home", "/about","/logout","/templates/**").permitAll()
                 .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/user/**").hasAnyRole("USER")
                 .anyRequest().authenticated()
@@ -36,7 +39,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll()
                 .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);       
     }
 
 
@@ -44,11 +47,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.inMemoryAuthentication()
-                .withUser("dat").password("dat1234").roles("USER","ADMIN")
+                .withUser("dat").password("{noop}dat1234").roles("USER","ADMIN")
                 .and()
-                .withUser("khoi").password("khoi1234").roles("USER")
+                .withUser("khoi").password("{noop}khoi1234").roles("USER")
                 .and()
-                .withUser("admin").password("password").roles("ADMIN");
+                .withUser("admin").password("{noop}password").roles("ADMIN");
         
     }
 
