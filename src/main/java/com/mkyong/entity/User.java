@@ -1,26 +1,33 @@
 package com.mkyong.entity;
 
-import java.util.List;
+import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "user")
 public class User {
-
-	private Long id;
-	private String userName;
-	private String password;
-
-	private List<Role> roles;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	@Column(name = "user_name")
+	private String username;
+
+	private String password;
+
+	@Transient
+	private String passwordConfirm;
+
+	@ManyToMany
+	private Set<Role> roles;
+
 	public Long getId() {
 		return id;
 	}
@@ -29,12 +36,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
@@ -45,12 +52,19 @@ public class User {
 		this.password = password;
 	}
 
-	@ManyToMany
-	public List<Role> getRoles() {
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
+
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<Role> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 
