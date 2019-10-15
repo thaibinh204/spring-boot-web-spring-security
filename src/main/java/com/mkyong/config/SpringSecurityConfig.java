@@ -19,16 +19,15 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 //@EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Autowired
+	private AccessDeniedHandler accessDeniedHandler;
+	@Autowired
+	private UserDetailsService userDetailsService;
 
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 	// roles admin allow to access /admin/**
 	// roles user allow to access /user/**
@@ -37,27 +36,24 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http.csrf().disable().authorizeRequests().antMatchers("/webjars/**").permitAll()
-				.antMatchers("/css/**", "/js/**").permitAll()
-				.antMatchers("/favicon.ico").permitAll()
-				.antMatchers("/", "/home", "/about", "/logout", "/templates/**").permitAll()
-				.antMatchers("/admin/**").hasAnyRole("ADMIN")
-				.antMatchers("/user/**").hasAnyRole("USER")
-				.anyRequest().authenticated().and()
+				.antMatchers("/css/**", "/js/**").permitAll().antMatchers("/favicon.ico").permitAll()
+				.antMatchers("/", "/home", "/about", "/logout", "/templates/**").permitAll().antMatchers("/admin/**")
+				.hasAnyRole("ADMIN").antMatchers("/user/**").hasAnyRole("USER").anyRequest().authenticated().and()
 				.formLogin().loginPage("/login").permitAll().and().logout().permitAll().and().exceptionHandling()
 				.accessDeniedHandler(accessDeniedHandler);
 	}
 
 	@Bean
-    public AuthenticationManager customAuthenticationManager() throws Exception {
-        return authenticationManager();
-    }
+	public AuthenticationManager customAuthenticationManager() throws Exception {
+		return authenticationManager();
+	}
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
 
-    }
+	}
 
 //	@Autowired
 //	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -67,7 +63,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .withUser("khoi").password("{noop}khoi1234").roles("USER")
 //                .and()
 //                .withUser("admin").password("{noop}password").roles("ADMIN");
-		
+
 //	}
 
 	/*

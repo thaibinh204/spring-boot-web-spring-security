@@ -24,7 +24,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		User user = userRepository.findByUserName(username);
+		User user = userRepository.findByUsername(username);
 		if (user == null)
 			throw new UsernameNotFoundException(username);
 
@@ -33,7 +33,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 			grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
 		}
 
-		return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),
+		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
 				grantedAuthorities);
 	}
 
