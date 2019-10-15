@@ -34,14 +34,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.csrf().disable().authorizeRequests().antMatchers("/webjars/**").permitAll()
-				.antMatchers("/css/**", "/js/**").permitAll()
+		http.csrf().disable().authorizeRequests()
+				.antMatchers("/webjars/**").permitAll()
+				.antMatchers("/css/**", "/js/**", "/templates/**").permitAll()
 				.antMatchers("/favicon.ico").permitAll()
-				.antMatchers("/", "/home", "/about", "/logout", "/templates/**").permitAll()
+				.antMatchers("/", "/home", "/about", "/logout", "/registration").permitAll()
 				.antMatchers("/admin/**").hasAnyRole("ADMIN")
 				.antMatchers("/user/**").hasAnyRole("USER")
 				.anyRequest().authenticated().and()
-				.formLogin().loginPage("/login").permitAll().and().logout().permitAll().and().exceptionHandling()
+				.formLogin().loginPage("/login").permitAll()
+				.and().logout().permitAll()
+				.and().exceptionHandling()
 				.accessDeniedHandler(accessDeniedHandler);
 	}
 
