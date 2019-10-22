@@ -7,6 +7,7 @@ import java.util.Set;
 @Table(name = "user")
 public class User {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "user_name")
